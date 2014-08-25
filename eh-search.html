@@ -1,11 +1,58 @@
 
-<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer/polymer.html">
 
 <polymer-element name="eh-search" >
   <template>
-<script type='text/javascript' src='//code.jquery.com/jquery-1.11.0.js'></script>
-<link rel="stylesheet" type="text/css" href="//twitter.github.io/typeahead.js/css/examples.css">
 <style type='text/css'>
+/* custom font! */
+/* ------------ */
+
+@font-face {
+}
+
+/* scaffolding */
+/* ----------- */
+
+html {
+  overflow-y: scroll;
+  *overflow-x: hidden;
+}
+
+.container {
+  max-width: 750px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.tt-dropdown-menu,
+.gist {
+  text-align: left;
+}
+
+/* base styles */
+/* ----------- */
+
+html {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 18px;
+  line-height: 1.2;
+  color: #333;
+}
+
+a {
+  color: #03739c;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.table-of-contents li {
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+}
 .essential .empty-message {
   padding: 5px 10px;
   text-align: center;
@@ -25,17 +72,20 @@
 }
 </style>
 
-<script type='text/javascript'>//<![CDATA[ 
-$(window).load(function(){
+<script type='text/javascript' src='https://code.jquery.com/jquery-1.11.0.js'></script>
+<script src="https://twitter.github.io/typeahead.js/js/handlebars.js"></script>
+<script src="https://twitter.github.io/typeahead.js/releases/latest/typeahead.bundle.js"></script>
+<script type='text/javascript'> 
+jQuery(window).load(function(){
     var search = new Bloodhound({
 datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
 queryTokenizer: Bloodhound.tokenizers.whitespace,
-prefetch:{ url:  "/wp-content/uploads/search.json"}
+prefetch:{ url:  "https://essentialhotels.co.uk/index.json"}
 });
 
     search.initialize();
 
-    $('.essential .typeahead').typeahead(null, {
+    jQuery('.essential .typeahead').typeahead(null, {
 name: 'search',
 displayKey: 'value',
 source: search.ttAdapter(),
@@ -49,7 +99,7 @@ suggestion: Handlebars.compile('<p class="{{type}}">{{value}}</p>')
 }
 }).bind("typeahead:selected", function(obj, datum, name) {
   if (datum.url) {
-  $(location).attr('href', datum.url);
+  jQuery(location).attr('href', datum.url);
   }
   }).bind("typeahead:cursorchanged", function(obj, datum, name) {
     console.log(obj, datum, name);
@@ -57,8 +107,7 @@ suggestion: Handlebars.compile('<p class="{{type}}">{{value}}</p>')
     /* $(location).attr('href', datum.url); */
     }
     });
-});//]]>  
-
+}); 
 </script>
 <center>
   <div class="essential">
@@ -66,8 +115,6 @@ suggestion: Handlebars.compile('<p class="{{type}}">{{value}}</p>')
   </div>
 </center>
 
-<script src="//twitter.github.io/typeahead.js/js/handlebars.js"></script>
-<script src="//twitter.github.io/typeahead.js/releases/latest/typeahead.bundle.js"></script>
   </template>
   <script>Polymer('eh-search');</script>
 
